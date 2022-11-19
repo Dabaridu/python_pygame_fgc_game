@@ -22,7 +22,6 @@ conString3 = 0 # nimata še contString-a -->
 conString4 = 0 #--> aka nimata še definiranih user inputov
 
 class player:
-
     def __init__(self, xpos, ypos,speed, colour, controlString):
         self.xpos = xpos
         self.ypos = ypos
@@ -48,11 +47,36 @@ class player:
         pygame.draw.rect(win, (self.colour), (self.xpos, self.ypos, width, height))   
         # pygame.display.update() #če to vklopš nazaj bo za vsazga playerja posebej screen updatal in bo flickering mess --> don do it
 
+class Cone:
+    def __init__(self, xpos, ypos, colour, Drawn):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.colour = colour
+        self.Drawn = Drawn
+
+    def hide(self):
+        self.Drawn = 0
+
+    def show(self):
+        self.Drawn = 1
+    
+
+
 #naredimo igralce za to igro
 player1 = player(0, 0, 1, red,  conString1)
 player2 = player(0, 0, 1, blu,  conString2)
 player3 = player(0, 0, 1, gren, conString3)
 player4 = player(0, 0, 1, pink, conString4)
+
+players = [player1, player2, player3, player4] #player array, cuz lazy
+
+#grafika:
+#naredi array kaj vse je na polju kar boš posodobil vsak frame
+
+
+#making a playing field
+
+
 
 mainloop = True
 while mainloop:
@@ -68,9 +92,21 @@ while mainloop:
     #calling all player inputs
     player1.input()
     player2.input()
-    # player3.input() # nimata še contString-a -->
-    # player4.input() #--> aka nimata še definiranih user inputov
+    # player3.input() # nimata še contString-a aka nimata še definiranih user inputov
+    # player4.input() # nimata še contString-a aka nimata še definiranih user inputov
 
+    #limiting player movement to screen 
+    pCount = 0 #counting thrue all the players
+    while pCount <= 3:
+        if players[pCount].xpos <= 0:
+            players[pCount].xpos += 1
+        if players[pCount].xpos >= (resoLution[0] - width):
+            players[pCount].xpos -= 1
+        if players[pCount].ypos <= 0:
+            players[pCount].ypos += 1
+        if players[pCount].ypos >= (resoLution[1] - height):
+            players[pCount].ypos -= 1
+        pCount += 1
 
     #drawing their commands, update screen
     win.fill((0,0,0))  # Fills the screen with black
