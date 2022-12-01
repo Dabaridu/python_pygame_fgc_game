@@ -67,3 +67,4 @@ home()
 #----------------------------playgame
 done()
 #-----------mogoče sem povzročil problem s ukazon keyboardinterupt ki je sprožil nekaj v python skripti, zaženi z debugerjem pa dela
+# very nice
