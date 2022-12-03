@@ -15,6 +15,12 @@ blu = 0,255,0
 gren = 0,0,255
 pink = 255,0,255
 
+# basicfield graphic calculation
+center = [(resoLution[0]/2),(resoLution[1]/2)]
+gridSize = 6 #tiles!
+gridspacingx = (resoLution[0]/gridSize)
+gridspacingy = (resoLution[1]/gridSize)
+
 #nekdaj se implementira to... ker bo lažje, i guess
 conString1 = [pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT]
 conString2 = [pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d]
@@ -52,16 +58,29 @@ class Cone:
         self.xpos = xpos
         self.ypos = ypos
         self.colour = colour
-        self.Drawn = Drawn
-
+    
     def hide(self):
         self.Drawn = 0
 
     def show(self):
         self.Drawn = 1
     
+class junction:
+    def __init__(self, xpos, ypos, numRed, numBlu, tipe, claim = 0, coneNum = 0): #class junction tipe: ground, low, mid, high; 0-3
+        self.xpos = xpos
+        self.ypos = ypos
+        self.numRed = 0
+        self.numBlu = 0
+        self.tipe = tipe
+        self.tipe = claim
 
-
+    def addRed(self, amount):
+        self.numRed += amount 
+        coneNUm += 1
+    def addBlu(self, amount):
+        self.numBlu += amount
+        coneNUm += 1
+    
 #naredimo igralce za to igro
 player1 = player(0, 0, 1, red,  conString1)
 player2 = player(0, 0, 1, blu,  conString2)
@@ -108,8 +127,26 @@ while mainloop:
             players[pCount].ypos -= 1
         pCount += 1
 
+    #field graphics:
     #drawing their commands, update screen
-    win.fill((0,0,0))  # Fills the screen with black
+    win.fill((150,150,150))  # Fills the screen with black
+
+    #drawing a grid of circles
+    gridcountx = 0 #sets a counter for x
+    gridDrawx = 0 #set grid start x
+    gridDrawy = 0 #set grid start y
+    while (gridcountx < 5):
+        gridDrawx += gridspacingx
+        gridcounty = 0 #sets gridcount for y
+        gridDrawy = 0
+        gridcountx += 1
+        while (gridcounty < 5):
+            gridDrawy += gridspacingy
+            pygame.draw.circle(win, (0,0,0), (gridDrawx,gridDrawy), 10)     # pygame.draw.circle(win, (0,0,0), (center[0], center[1]),10)   
+            gridcounty += 1
+    #from grid to array ?
+
+
     # graphicly updating player position
     player1.update()
     player2.update()
