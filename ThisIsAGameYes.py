@@ -14,6 +14,9 @@ red = 255,0,0
 blu = 0,255,0
 gren = 0,0,255
 pink = 255,0,255
+#yes some more colour
+SURFACE_COLOR = (167, 255, 1)
+COLOR = (255, 100, 98)
 
 #nekdaj se implementira to... ker bo lažje, i guess
 conString1 = [pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT]
@@ -21,13 +24,15 @@ conString2 = [pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d]
 conString3 = 0 # nimata še contString-a -->
 conString4 = 0 #--> aka nimata še definiranih user inputov
 
-class player:
-    def __init__(self, xpos, ypos,speed, colour, controlString):
+class player(pygame.sprite.player):
+    def __init__(self, xpos, ypos,speed, color, controlString):
         self.xpos = xpos
         self.ypos = ypos
         self.speed = speed
-        self.colour = colour
+        self.colour = color
         self.controlString = controlString
+
+        pygame.draw.rect(self.image,color,pygame.Rect(0, 0, width, height))
     
     def input(self):
         #skenira za vse trenutno pritisnjene tipke ? 
@@ -76,7 +81,12 @@ players = [player1, player2, player3, player4] #player array, cuz lazy
 
 #making a playing field
 
+#clock, yes it a clock
+clock = pygame.time.Clock()
 
+#and here is the screen whatever the fuck that means
+size = (resoLution[1], resoLution[2])
+screen = pygame.display.set_mode(size)
 
 mainloop = True
 while mainloop:
@@ -118,5 +128,12 @@ while mainloop:
     #updating the display (all at once, yes(kako dela, idk))
     pygame.display.update() 
 
+    #sprite drawing
+    all_sprites_list = pygame.sprite.Group()
+    all_sprites_list.update()
+    screen.fill(SURFACE_COLOR)
+    all_sprites_list.draw(screen)
+    pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
